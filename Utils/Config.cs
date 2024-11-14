@@ -15,8 +15,6 @@ namespace TestProject.Utils
         }
 
         public static string BaseUrl => Configuration["baseUrl"];
-        public static string Username => Configuration["username"];
-        public static string Password => Configuration["password"];
         public static string FirstName => Configuration["firstName"];
         public static string LastName => Configuration["lastName"];
         public static string ZipCode => Configuration["zipCode"];

@@ -21,8 +21,8 @@ namespace TestProject.PageObjectModel
 
         public async Task Login()
         {
-            await Username.FillAsync(_username);
-            await Password.FillAsync(_password);
+            await Username.FillAsync("standard_user");
+            await Password.FillAsync("secret_sauce");
             await LoginButton.ClickAsync();
         }
     }

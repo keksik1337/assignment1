@@ -36,14 +36,19 @@ public class ShoppingCartTest : PageTest
     [Test]
     public async Task ShoppingTest()
     {
+        Console.WriteLine("Open home page");
         await _basePage.GoTo();
+
+        Console.WriteLine("Log in");
         await _loginPage.Login();
 
         await Expect(_homePage.Title).ToHaveTextAsync("Products");
 
+        Console.WriteLine("Select Tshirt");
         await _homePage.Tshirt.ClickAsync();
         await Expect(_homePage.BackToProducts).ToBeVisibleAsync();
 
+        Console.WriteLine("Add Tshirt to shopping cart");
         await _itemPage.AddToCart.ClickAsync();
         await Expect(_navigationBar.ShoppingCartBadge).ToBeVisibleAsync();
         await Expect(_navigationBar.ShoppingCartBadge).Not.ToBeEmptyAsync();
@@ -52,6 +57,7 @@ public class ShoppingCartTest : PageTest
         var ItemPrice = await _itemPage.Price.InnerTextAsync();
         var ItemDescription = await _itemPage.Description.InnerTextAsync();
 
+        Console.WriteLine("Open shopping cart");
         await _navigationBar.ShoppingCart.ClickAsync();
         await Expect(_cartPage.Title).ToHaveTextAsync("Your Cart");
         await Expect(_cartPage.ItemQuantity).ToHaveTextAsync("1");
@@ -59,8 +65,11 @@ public class ShoppingCartTest : PageTest
         await Expect(_cartPage.ItemDescription).ToHaveTextAsync(ItemDescription);
         await Expect(_cartPage.ItemPrice).ToHaveTextAsync(ItemPrice);
 
+        Console.WriteLine("Click on Checkout button");
         await _cartPage.CheckoutBtn.ClickAsync();
         await Expect(_checkoutPage.Title).ToHaveTextAsync("Checkout: Your Information");
+
+        Console.WriteLine("Fill customer info and continue");
         await _checkoutPage.FillCustomerInfo();
         await _checkoutPage.ContinueBtn.ClickAsync();
 
@@ -71,10 +80,12 @@ public class ShoppingCartTest : PageTest
         await Expect(_overviewPage.ItemQuantity).ToHaveTextAsync("1");
         await Expect(_overviewPage.TotalPrice).ToContainTextAsync("$17.27");
 
+        Console.WriteLine("Click on Finish button");
         await _overviewPage.FinishBtn.ClickAsync();
         await Expect(_completePage.Title).ToHaveTextAsync("Checkout: Complete!");
         await Expect(_completePage.CompleteHeader).ToHaveTextAsync("Thank you for your order!");
 
+        Console.WriteLine("Log out");
         await _navigationBar.Logout();
         await _loginPage.Username.IsVisibleAsync();
         await _loginPage.Password.IsVisibleAsync();
