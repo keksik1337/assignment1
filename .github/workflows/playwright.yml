@@ -8,9 +8,6 @@ on:
 jobs:
   test:
     timeout-minutes: 60
-    env:
-      USERNAME: $(USERNAME)
-      PASSWORD: $(PASSWORD)
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -28,3 +25,6 @@ jobs:
       
     - name: Run tests
       run: dotnet test
+      env:
+        USERNAME: ${{ secrets.USERNAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
