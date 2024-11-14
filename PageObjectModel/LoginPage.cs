@@ -1,5 +1,4 @@
 ﻿using Microsoft.Playwright;
-using TestProject.Utils;
 
 namespace TestProject.PageObjectModel
 {
@@ -12,8 +11,8 @@ namespace TestProject.PageObjectModel
         public LoginPage(IPage page) : base(page)
         {
             _page = page;
-            _username = Config.Username;
-            _password = Config.Password;
+            _username = Environment.GetEnvironmentVariable("USERNAME");
+            _password = Environment.GetEnvironmentVariable("PASSWORD");
         }
 
         public ILocator Username => _page.Locator("[data-test='username']");
