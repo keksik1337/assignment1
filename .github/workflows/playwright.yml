@@ -29,8 +29,3 @@ jobs:
       env:
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
-
-    - name: Check secrets
-      run: |
-          if [ -z "$USERNAME" ]; then echo "USERNAME is not set"; else echo "USERNAME is set"; fi
-          if [ -z "$PASSWORD" ]; then echo "PASSWORD is not set"; else echo "PASSWORD is set"; fi
