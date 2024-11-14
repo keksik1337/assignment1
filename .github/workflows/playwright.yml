@@ -7,6 +7,7 @@ on:
     
 jobs:
   test:
+    environment: TestEnv
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -18,7 +19,7 @@ jobs:
         dotnet-version: 8.0.x
         
     - name: Build & Install
-      run: dotnet build
+      run: dotnet build --no-restore
       
     - name: Ensure browsers are installed
       run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
@@ -28,3 +29,8 @@ jobs:
       env:
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
+
+    - name: Check secrets
+      run: |
+          if [ -z "$USERNAME" ]; then echo "USERNAME is not set"; else echo "USERNAME is set"; fi
+          if [ -z "$PASSWORD" ]; then echo "PASSWORD is not set"; else echo "PASSWORD is set"; fi
