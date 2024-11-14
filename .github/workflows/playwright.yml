@@ -4,31 +4,24 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+    
 jobs:
-  build:
+  test:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - name: Check out code
-      uses: actions/checkout@v4
-
-    - name: Set up .NET
+    - uses: actions/checkout@v4
+    
+    - name: Setup dotnet
       uses: actions/setup-dotnet@v4
-      with: 
-          dotnet-version: '8.0' 
-      
-    - name: Build
-      run: dotnet build --no-restore
-      
-    - name: Install required browsers
-      run: pwsh bin/Debug/netcoreapp${{ matrix.dotnet-version }}/playwright.ps1 install
-      shell: pwsh
-
-    - name: Run Playwright tests
-      run: dotnet test --no-restore --configuration Release --logger "trx;LogFileName=test_results.trx"
-
-    - name: Upload Test Results
-      if: always()
-      uses: actions/upload-artifact@v3
       with:
-          name: TestResults
-          path: '**/test_results.trx'
+        dotnet-version: 8.0.x
+        
+    - name: Build & Install
+      run: dotnet build
+      
+    - name: Ensure browsers are installed
+      run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+      
+    - name: Run tests
+      run: dotnet test
